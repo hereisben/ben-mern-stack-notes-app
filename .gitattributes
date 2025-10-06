@@ -1,0 +1,7 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Hide sensitive files
+
+.env diff=none
+*.key diff=none

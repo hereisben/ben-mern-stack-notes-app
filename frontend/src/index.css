@@ -1,0 +1,8 @@
+@import "tailwindcss";
+@plugin "daisyui" {
+  themes: light --default, dark --prefersdark, coffee;
+}
+
+html * {
+  /* outline: 1px solid rgba(54, 7, 241, 0.923); */
+}
