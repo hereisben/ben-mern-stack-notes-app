@@ -15,6 +15,19 @@ const CreateNoteModal = forwardRef(({ onCreated }, ref) => {
     close: () => dialogRef.current?.close(),
   }));
 
+  const resetForm = () => {
+    setTitle("");
+    setContent("");
+    setPriority("low");
+    setIsSubmitting(false);
+  };
+
+  const handleClose = () => {
+    if (isSubmitting) return;
+    resetForm();
+    dialogRef.current?.close();
+  };
+
   const handleAdd = async () => {
     if (!title.trim() || !content.trim()) {
       toast.error("Title and content are required");
@@ -78,8 +91,15 @@ const CreateNoteModal = forwardRef(({ onCreated }, ref) => {
           </label>
         </div>
         <div className="modal-action">
-          <button className="btn" onClick={handleAdd} disabled={isSubmitting}>
+          <button
+            className="btn btn-primary"
+            onClick={handleAdd}
+            disabled={isSubmitting}
+          >
             {isSubmitting ? "Adding ..." : "Add"}
+          </button>
+          <button className="btn btn-error" onClick={handleClose}>
+            Close
           </button>
         </div>
       </div>

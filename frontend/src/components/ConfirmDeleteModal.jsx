@@ -31,10 +31,10 @@ const ConfirmDeleteModal = forwardRef(({ noteID, onDeleted }, ref) => {
       >
         <CircleAlert className="text-error" />
         <span className="font-bold">Are you sure to delete this note?</span>
-        <div>
+        <div className="flex gap-1">
           <button
             onClick={() => dialogRef.current?.close()}
-            className="btn btn-sm"
+            className="btn btn-sm btn-primary"
           >
             Cancel
           </button>
