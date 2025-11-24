@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 5001;
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://ben-mern-stack-notes-frontend.onrender.com",
+  "https://ben-notes-app.onrender.com/",
 ];
 
 app.use(
