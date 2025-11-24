@@ -28,6 +28,9 @@ connectDatabase().then(() => {
   console.log(
     chalk.bgGray(`Using collection: ${Note.collection.collectionName}`)
   );
+  app.get("/", (req, res) => {
+    res.send("Ben Notes API is running!");
+  });
   app.use("/api/notes", notesRoutes);
   app.listen(PORT, () => {
     console.log(chalk.bgGreen(`Server started at ${PORT}`));
