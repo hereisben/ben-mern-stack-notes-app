@@ -13,9 +13,24 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5001;
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://ben-mern-stack-notes-frontend.onrender.com",
+];
+
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Not allowed by CORS"));
+    },
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 app.use(express.json());
