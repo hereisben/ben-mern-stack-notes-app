@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 import connectDatabase from "./config/connectDatabase.js";
 import rateLimiter from "./middlewares/rateLimiter.js";
 import Note from "./models/note.model.js";
+import healthRoutes from "./routes/health.route.js";
 import notesRoutes from "./routes/note.route.js";
 
 dotenv.config();
@@ -34,6 +35,8 @@ app.use(
   })
 );
 app.use(express.json());
+
+app.use("/api/health", healthRoutes);
 app.use(rateLimiter);
 
 connectDatabase().then(() => {
