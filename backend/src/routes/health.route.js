@@ -1,5 +1,5 @@
 import express from "express";
-import { redis } from "../config/upstash";
+import { redis } from "../config/upstash.js";
 
 const router = express.Router();
 
