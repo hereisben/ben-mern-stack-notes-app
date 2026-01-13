@@ -9,6 +9,8 @@ Simple notes app for practicing MERN + rate limiting.
 - UI is basic
 - Goal is CRUD + deployment config + rate limit handling
 
+**Live demo:** https://ben-notes-app.onrender.com/
+
 ---
 
 ## Stack
