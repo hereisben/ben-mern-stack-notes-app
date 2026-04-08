@@ -1,15 +1,21 @@
 # BenNotes (MERN) — In Progress
 
-Simple notes app for practicing MERN + rate limiting.
+Lightweight personal productivity notes application built with the MERN stack.
+
+Designed as a SaaS-style learning project to practice full-stack architecture, deployment workflows, and production-oriented application patterns.
 
 **Status:** Work in progress. Not a finished product.
 
-- No auth
-- No user accounts
-- UI is basic
-- Goal is CRUD + deployment config + rate limit handling
+Current version is an MVP CRUD notes app with infrastructure and deployment foundations in place.  
+Long-term goal is to evolve it into a more complete personal productivity platform.
 
 **Live demo:** https://ben-notes-app.onrender.com/
+
+---
+
+## Product Vision
+
+BenNotes is evolving from a simple CRUD learning project into a lightweight personal productivity SaaS application focused on helping users create, organize, and manage personal notes through a production-style MERN architecture.
 
 ---
 
@@ -20,7 +26,7 @@ Simple notes app for practicing MERN + rate limiting.
 - Node.js, Express
 - MongoDB (Mongoose)
 - Upstash Redis (rate limiting)
-- CORS allowlist + env-based config
+- CORS allowlist + environment-based config
 - Health endpoints (API + Redis keep-alive)
 
 ### Frontend
@@ -33,7 +39,7 @@ Simple notes app for practicing MERN + rate limiting.
 
 ---
 
-## What works now
+## Current Features
 
 - Create / Read / Update / Delete notes
 - Note model fields:
@@ -41,17 +47,16 @@ Simple notes app for practicing MERN + rate limiting.
   - `content`
   - `priority`
   - `timestamps`
-- Upstash rate limiting middleware (per IP)
-- Rate limit UI feedback (frontend)
-- Axios base URL logic:
-  - uses `VITE_API_URL` first
-  - falls back to localhost in dev
-  - otherwise uses production API URL
-- Health checks
+- Upstash Redis rate limiting middleware (per IP)
+- Rate limit UI feedback
+- Environment-aware Axios API configuration
+- Backend API health check endpoint
+- Redis health / keep-alive endpoint
+- Production CORS allowlist configuration
 
 ---
 
-## Project structure (rough)
+## Project Structure (Rough)
 
 backend/
 controllers/
@@ -71,47 +76,52 @@ index.html
 
 ---
 
-## API (notes)
-
-Exact paths depend on your `noteRoutes.js`, but the intent is standard CRUD.
+## API (Notes)
 
 - `GET /api/notes` — list notes
-- `GET /api/notes/:id` — get one
-- `POST /api/notes` — create
-- `PUT /api/notes/:id` — update
-- `DELETE /api/notes/:id` — delete
+- `GET /api/notes/:id` — get one note
+- `POST /api/notes` — create note
+- `PUT /api/notes/:id` — update note
+- `DELETE /api/notes/:id` — delete note
 
-Rate limiting is applied to API routes. If you spam requests, you will get a rate limit response and the UI should show it.
+Rate limiting is applied to API routes.  
+Excessive requests return rate limit responses handled by the frontend UI.
 
 ---
 
-## Deployment notes
+## Deployment Notes
 
 - Frontend API base URL:
-  - prefers `VITE_API_URL`
-  - otherwise uses localhost in dev
-  - otherwise uses the configured production URL (moved to Koyeb in later commits)
+  - Prefers `VITE_API_URL`
+  - Falls back to localhost in development
+  - Otherwise uses configured production API URL
+
 - Backend CORS:
-  - uses an allowlist with localhost + deployed frontend origin
-  - trailing slash was removed later to fix matching issues
-- Redis keep-alive:
-  - `GET /api/health/ping-redis` exists for external pings
+  - Uses allowlist for approved frontend origins
+  - Supports local + deployed frontend environments
+
+- Redis Keep-Alive:
+  - `GET /api/health/ping-redis` available for uptime monitoring
 
 ---
 
-## Missing / TODO
+## Planned Features
 
-- Authentication + accounts
-- Per-user notes
-- Better validation
-- Search / filter / sorting UI
-- Pagination
+- Authentication + user accounts
+- Per-user notes ownership
+- Note detail pages
+- Search / filter / sorting
+- Tags / categories
+- Pin / archive / trash states
+- Dashboard statistics
+- Public shareable note links
+- Better validation / error handling
 - Tests
-- Cleaner error UX
+- UI / UX polish
 
 ---
 
 ## Credits
 
-Built by **Ben Nguyen**.
-Learning project.
+Built by **Ben Nguyen**  
+Learning / portfolio project
