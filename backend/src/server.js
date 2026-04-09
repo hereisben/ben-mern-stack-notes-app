@@ -52,6 +52,7 @@ connectDatabase().then(() => {
   });
   app.use("/api/notes", notesRoutes);
   app.use("/api/auth", authRoutes);
+
   app.listen(PORT, () => {
     console.log(chalk.bgGreen(`Server started at ${PORT}`));
   });

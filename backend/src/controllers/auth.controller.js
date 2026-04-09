@@ -3,6 +3,19 @@ import chalk from "chalk";
 import { generateToken } from "../lib/generateToken.js";
 import User from "../models/user.model.js";
 
+export async function getMe(req, res) {
+  try {
+    return res.status(200).json({
+      user: req.user,
+    });
+  } catch (err) {
+    console.error(chalk.bgRed(`Get me error:`, err));
+    return res.status(500).json({
+      message: `Interval server error`,
+    });
+  }
+}
+
 export async function registerUser(req, res) {
   try {
     const { name, email, password } = req.body;
