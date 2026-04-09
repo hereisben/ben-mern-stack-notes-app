@@ -15,8 +15,13 @@ const noteSchema = new mongoose.Schema(
       enum: ["low", "medium", "high"],
       default: "low",
     },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
-  { timestamps: true, collection: "notesCollection" }
+  { timestamps: true, collection: "notesCollection" },
 );
 
 const Note = mongoose.model("Note", noteSchema);
