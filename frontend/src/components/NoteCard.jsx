@@ -1,7 +1,8 @@
 import { PenSquareIcon, Trash2Icon } from "lucide-react";
 import { useRef } from "react";
 import { Link } from "react-router";
-import { formateDate } from "../lib/formatDate";
+import { formatDate } from "../lib/formatDate.js";
+import { getPriorityBadge } from "../lib/getPriorityBadge.js";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
 
 const NoteCard = ({ note, onDeleted }) => {
@@ -26,17 +27,11 @@ const NoteCard = ({ note, onDeleted }) => {
           <p className="text-base-content/70 line-clamp-3">{note.content}</p>
           <div className="mt-4 flex items-center justify-between">
             <span className="text-sm text-base-content/60">
-              {formateDate(new Date(note.createdAt))}
+              {formatDate(new Date(note.createdAt))}
             </span>
             <div className="flex items-center gap-2">
               <div
-                className={`badge badge-md ${
-                  note.priority === "low"
-                    ? "badge-primary"
-                    : note.priority === "medium"
-                    ? "badge-warning"
-                    : "badge-error"
-                }`}
+                className={`badge badge-md ${getPriorityBadge(note.priority)}`}
               >
                 {note.priority}
               </div>

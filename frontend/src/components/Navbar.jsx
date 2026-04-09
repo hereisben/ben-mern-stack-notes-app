@@ -13,7 +13,7 @@ const Navbar = ({ onCreated }) => {
     <header className="bg-base-300 border-b border-base-content/10">
       <div className="mx-auto max-w-6xl p-4">
         <div className="flex items-center justify-between">
-          <Link to="#">
+          <Link to="/">
             <h1 className="text-4xl font-bold text-primary font-mono tracking-wide">
               BENNOTES
             </h1>
