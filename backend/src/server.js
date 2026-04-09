@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 import connectDatabase from "./config/connectDatabase.js";
 import rateLimiter from "./middlewares/rateLimiter.js";
 import Note from "./models/note.model.js";
+import authRoutes from "./routes/auth.route.js";
 import healthRoutes from "./routes/health.route.js";
 import notesRoutes from "./routes/note.route.js";
 
@@ -32,7 +33,7 @@ app.use(
     },
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
-  })
+  }),
 );
 app.use(express.json());
 
@@ -41,15 +42,16 @@ app.use(rateLimiter);
 
 connectDatabase().then(() => {
   console.log(
-    chalk.bgGreen(`Connected to MongoDB: ${mongoose.connection.name}`)
+    chalk.bgGreen(`Connected to MongoDB: ${mongoose.connection.name}`),
   );
   console.log(
-    chalk.bgGray(`Using collection: ${Note.collection.collectionName}`)
+    chalk.bgGray(`Using collection: ${Note.collection.collectionName}`),
   );
   app.get("/", (req, res) => {
     res.send("Ben Notes API is running!");
   });
   app.use("/api/notes", notesRoutes);
+  app.use("/api/auth", authRoutes);
   app.listen(PORT, () => {
     console.log(chalk.bgGreen(`Server started at ${PORT}`));
   });
