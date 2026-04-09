@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
 import chalk from "chalk";
+import { generateToken } from "../lib/generateToken.js";
 import User from "../models/user.model.js";
 
 export async function registerUser(req, res) {
@@ -46,6 +47,53 @@ export async function registerUser(req, res) {
     });
   } catch (err) {
     console.error(chalk.bgRed(`Register error`, err));
+    return res.status(500).json({
+      message: `Internal server error`,
+    });
+  }
+}
+
+export async function loginUser(req, res) {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({
+        message: `Email and password are required`,
+      });
+    }
+
+    const user = await User.findOne({
+      email: email.toLowerCase(),
+    });
+
+    if (!user) {
+      return res.status(401).json({
+        message: `Invalid email or password`,
+      });
+    }
+
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordCorrect) {
+      return res.status(401).json({
+        message: `Invalid email or password`,
+      });
+    }
+
+    const token = generateToken(user._id);
+
+    return res.status(200).json({
+      message: `Login successfully`,
+      token,
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+      },
+    });
+  } catch (err) {
+    console.error(chalk.bgRed(`Login error:`, err));
     return res.status(500).json({
       message: `Internal server error`,
     });
