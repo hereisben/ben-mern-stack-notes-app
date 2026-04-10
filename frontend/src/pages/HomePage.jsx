@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Navbar from "../components/Navbar";
 import NoteCard from "../components/NoteCard";
+import NotesErrorState from "../components/NotesErrorState";
 import NotesNotFound from "../components/NotesNotFound";
 import RateLimitedUI from "../components/RateLimitedUI";
 import api from "../lib/axios";
@@ -10,6 +11,7 @@ const HomePage = () => {
   const [isRateLimited, setIsRateLimited] = useState(false);
   const [notes, setNotes] = useState([]);
   const [loading, setIsLoading] = useState(true);
+  const [hasFetchError, setHasFetchError] = useState(false);
 
   useEffect(() => {
     const fetchNotes = async () => {
@@ -17,13 +19,17 @@ const HomePage = () => {
         const res = await api.get("/notes");
         setNotes(res.data);
         setIsRateLimited(false);
+        setHasFetchError(false);
       } catch (error) {
         console.error("Error fetching notes");
         console.error(error.response);
 
         if (error.response?.status === 429) {
           setIsRateLimited(true);
+          setHasFetchError(false);
         } else {
+          setHasFetchError(true);
+          setIsRateLimited(false);
           toast.error("Failed to fetch notes");
         }
       } finally {
@@ -52,7 +58,9 @@ const HomePage = () => {
           </div>
         )}
 
-        {!loading && notes.length === 0 && !isRateLimited && (
+        {!loading && hasFetchError && !isRateLimited && <NotesErrorState />}
+
+        {!loading && !hasFetchError && notes.length === 0 && !isRateLimited && (
           <NotesNotFound onCreated={onCreated} />
         )}
 
