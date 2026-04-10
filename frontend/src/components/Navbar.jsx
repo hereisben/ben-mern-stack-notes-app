@@ -1,9 +1,19 @@
 import { Plus } from "lucide-react";
 import { useRef } from "react";
-import { Link } from "react-router";
+import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router";
+import { useAuth } from "../hooks/useAuth.js";
 import CreateNoteModal from "./CreateNoteModal";
 const Navbar = ({ onCreated }) => {
   const modalRef = useRef();
+  const navigate = useNavigate();
+  const { logout, authUser } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    toast.success(`Logged out successfully`);
+    navigate("/login");
+  };
 
   const openCreateNoteModal = () => {
     modalRef.current?.open();
@@ -15,13 +25,20 @@ const Navbar = ({ onCreated }) => {
         <div className="flex items-center justify-between">
           <Link to="/">
             <h1 className="text-4xl font-bold text-primary font-mono tracking-wide">
-              BENNOTES
+              <span>{authUser?.name.toUpperCase()}</span>NOTES
             </h1>
           </Link>
-          <div className="">
+          <div className="flex items-center gap-3">
             <button onClick={openCreateNoteModal} className="btn btn-primary">
               <Plus />
               <span className="text-lg font-bold">New Note</span>
+            </button>
+
+            <button
+              onClick={handleLogout}
+              className="btn btn-outline hover:bg-warning/30"
+            >
+              <span className="text-lg font-bold">Log Out</span>
             </button>
           </div>
         </div>
