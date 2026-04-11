@@ -101,7 +101,13 @@ const LoginPage = () => {
 
         <div className="divider text-base-content/50">or</div>
 
-        <button type="button" className="btn btn-outline w-full" disabled>
+        <button
+          type="button"
+          className="btn btn-outline w-full"
+          onClick={() => {
+            window.location.href = `${import.meta.env.VITE_API_URL || "http://localhost:5001/api"}/auth/google`;
+          }}
+        >
           Continue with Google
         </button>
 

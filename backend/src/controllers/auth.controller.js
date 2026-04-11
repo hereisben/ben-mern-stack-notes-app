@@ -112,3 +112,18 @@ export async function loginUser(req, res) {
     });
   }
 }
+
+export const googleCallback = async (req, res) => {
+  try {
+    if (!req.user) {
+      return res.redirect(`${process.env.CLIENT_URL}/login`);
+    }
+
+    const token = generateToken(req.user._id);
+
+    res.redirect(`${process.env.CLIENT_URL}/oauth-success?token=${token}`);
+  } catch (err) {
+    console.error(chalk.bgRed(`Google auth callback error:`, err));
+    res.redirect(`${process.env.CLIENT_URL}/login`);
+  }
+};

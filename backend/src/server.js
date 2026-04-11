@@ -2,8 +2,10 @@ import chalk from "chalk";
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
+import session from "express-session";
 import mongoose from "mongoose";
 import connectDatabase from "./config/connectDatabase.js";
+import passport from "./config/passport.js";
 import rateLimiter from "./middlewares/rateLimiter.js";
 import Note from "./models/note.model.js";
 import authRoutes from "./routes/auth.route.js";
@@ -50,6 +52,16 @@ connectDatabase().then(() => {
   app.get("/", (req, res) => {
     res.send("Ben Notes API is running!");
   });
+
+  app.use(
+    session({
+      secret: process.env.SESSION_SECRET,
+      resave: false,
+      saveUninitialized: false,
+    }),
+  );
+  app.use(passport.initialize());
+  app.use(passport.session());
   app.use("/api/notes", notesRoutes);
   app.use("/api/auth", authRoutes);
 
